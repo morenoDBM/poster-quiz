@@ -421,12 +421,8 @@ let answered = false;
 //  INIT – decide which screen to show first
 // ═══════════════════════════════════════════════════
 function init() {
-  if (!API_KEY) {
-    show('setupScreen');
-  } else {
-    show('quizScreen');
-    renderQuestion();
-  }
+  show('quizScreen');
+  renderQuestion();
 }
 
 function show(id) {
