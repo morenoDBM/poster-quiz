@@ -14,7 +14,6 @@
   --teal:    #0fb8b8;
   --teal-d:  #0a8a8a;
   --blue:    #3d7eff;
-  --navy:    #1c3258;
   --red:     #ff4d3d;
   --green:   #22c97a;
   --gold:    #f0b429;
@@ -22,382 +21,239 @@
   --txt-mid: #8aa0c0;
   --txt-lt:  #506070;
   --border:  rgba(255,255,255,.08);
-  --sans: 'DM Sans', system-ui, sans-serif;
+  --sans:    'DM Sans', system-ui, sans-serif;
   --display: 'Syne', system-ui, sans-serif;
 }
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 body {
   font-family: var(--sans);
   background: var(--bg);
   color: var(--txt);
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
   padding: 24px 16px;
-  overflow-x: hidden;
 }
-
-/* animated background grid */
 body::before {
   content: '';
   position: fixed; inset: 0; z-index: 0;
   background-image:
-    linear-gradient(rgba(15,184,184,.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15,184,184,.06) 1px, transparent 1px);
+    linear-gradient(rgba(15,184,184,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15,184,184,.05) 1px, transparent 1px);
   background-size: 40px 40px;
   pointer-events: none;
 }
-
-/* floating orbs */
-.orb {
-  position: fixed; border-radius: 50%; pointer-events: none; z-index: 0;
-  filter: blur(80px); opacity: .18;
-}
+.orb { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(80px); opacity: .15; }
 .orb1 { width: 400px; height: 400px; background: var(--teal); top: -100px; right: -100px; animation: drift 12s ease-in-out infinite; }
 .orb2 { width: 300px; height: 300px; background: var(--blue); bottom: -80px; left: -80px; animation: drift 16s ease-in-out infinite reverse; }
+@keyframes drift { 0%,100% { transform: translate(0,0); } 50% { transform: translate(30px,20px); } }
 
-@keyframes drift {
-  0%,100% { transform: translate(0,0); }
-  50%      { transform: translate(30px, 20px); }
-}
+.app { position: relative; z-index: 1; width: 100%; max-width: 680px; }
 
-.app {
-  position: relative; z-index: 1;
-  width: 100%; max-width: 680px;
-}
-
-/* ── HEADER ── */
-.quiz-header {
-  text-align: center;
-  margin-bottom: 36px;
-  animation: fadeUp .6s ease both;
-}
+/* HEADER */
+.quiz-header { text-align: center; margin-bottom: 32px; animation: fadeUp .6s ease both; }
 .quiz-badge {
   display: inline-flex; align-items: center; gap: 8px;
   background: rgba(15,184,184,.12); border: 1px solid rgba(15,184,184,.3);
   border-radius: 999px; padding: 6px 16px;
-  font-size: .8rem; font-weight: 600; color: var(--teal);
-  letter-spacing: .08em; text-transform: uppercase;
-  margin-bottom: 16px;
-}
-.quiz-badge svg { width: 14px; height: 14px; }
-.quiz-header h1 {
-  font-family: var(--display);
-  font-size: clamp(1.8rem, 5vw, 2.8rem);
-  font-weight: 800; line-height: 1.15;
-  color: var(--txt);
-  margin-bottom: 10px;
-}
-.quiz-header h1 span { color: var(--teal); }
-.quiz-header p { font-size: .95rem; color: var(--txt-mid); line-height: 1.6; }
-
-/* ── PROGRESS ── */
-.progress-bar {
-  height: 4px; background: var(--bg3); border-radius: 2px;
-  margin-bottom: 32px; overflow: hidden;
-  animation: fadeUp .6s .1s ease both;
-}
-.progress-fill {
-  height: 100%; background: linear-gradient(90deg, var(--teal), var(--blue));
-  border-radius: 2px; transition: width .5s cubic-bezier(.4,0,.2,1);
-}
-.progress-label {
-  display: flex; justify-content: space-between;
-  font-size: .75rem; color: var(--txt-lt); margin-bottom: 8px;
-  animation: fadeUp .6s .1s ease both;
-}
-
-/* ── CARD ── */
-.card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 36px 36px 30px;
-  box-shadow: 0 24px 80px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.03);
-  animation: fadeUp .5s .15s ease both;
-  position: relative;
-  overflow: hidden;
-}
-.card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, var(--teal), var(--blue));
-}
-
-.question-num {
   font-size: .78rem; font-weight: 600; color: var(--teal);
-  letter-spacing: .1em; text-transform: uppercase;
-  margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+  letter-spacing: .08em; text-transform: uppercase; margin-bottom: 14px;
 }
+.quiz-header h1 { font-family: var(--display); font-size: clamp(1.8rem,5vw,2.6rem); font-weight: 800; line-height: 1.15; margin-bottom: 8px; }
+.quiz-header h1 span { color: var(--teal); }
+.quiz-header p { font-size: .92rem; color: var(--txt-mid); line-height: 1.6; }
+
+/* PROGRESS */
+.progress-label { display: flex; justify-content: space-between; font-size: .75rem; color: var(--txt-lt); margin-bottom: 8px; animation: fadeUp .6s .1s ease both; }
+.progress-bar { height: 4px; background: var(--bg3); border-radius: 2px; margin-bottom: 28px; overflow: hidden; animation: fadeUp .6s .1s ease both; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--teal), var(--blue)); border-radius: 2px; transition: width .5s cubic-bezier(.4,0,.2,1); }
+
+/* CARD */
+.card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 34px 34px 28px;
+  box-shadow: 0 24px 80px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.03);
+  animation: fadeUp .5s .15s ease both; position: relative; overflow: hidden;
+}
+.card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--teal), var(--blue)); }
+
+.question-num { font-size: .75rem; font-weight: 600; color: var(--teal); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
 .question-num::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.question-text { font-family: var(--display); font-size: clamp(1rem,2.5vw,1.3rem); font-weight: 600; line-height: 1.45; color: var(--txt); margin-bottom: 24px; }
 
-.question-text {
-  font-family: var(--display);
-  font-size: clamp(1.05rem, 2.5vw, 1.35rem);
-  font-weight: 600; line-height: 1.45;
-  color: var(--txt);
-  margin-bottom: 28px;
-}
-
-/* ── OPTIONS ── */
-.options { display: flex; flex-direction: column; gap: 12px; }
-
+/* OPTIONS */
+.options { display: flex; flex-direction: column; gap: 11px; }
 .option {
-  display: flex; align-items: center; gap: 16px;
-  background: var(--bg3);
-  border: 1.5px solid var(--border);
-  border-radius: 12px;
-  padding: 16px 20px;
-  cursor: pointer;
-  transition: all .2s ease;
-  position: relative;
-  overflow: hidden;
-  user-select: none;
+  display: flex; align-items: center; gap: 14px;
+  background: var(--bg3); border: 1.5px solid var(--border);
+  border-radius: 12px; padding: 15px 18px;
+  cursor: pointer; transition: all .2s ease;
+  position: relative; overflow: hidden; user-select: none;
 }
-.option::before {
-  content: ''; position: absolute; inset: 0;
-  background: var(--teal); opacity: 0;
-  transition: opacity .2s;
-}
-.option:hover:not(.disabled) {
-  border-color: rgba(15,184,184,.4);
-  transform: translateX(4px);
-}
-.option:hover:not(.disabled)::before { opacity: .04; }
-
+.option:hover:not(.disabled) { border-color: rgba(15,184,184,.4); transform: translateX(4px); }
 .option-letter {
-  width: 32px; height: 32px; border-radius: 8px;
-  background: rgba(255,255,255,.06);
-  border: 1px solid rgba(255,255,255,.1);
+  width: 30px; height: 30px; border-radius: 7px;
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
   display: flex; align-items: center; justify-content: center;
-  font-family: var(--display); font-size: .85rem; font-weight: 700;
-  color: var(--txt-mid); flex-shrink: 0;
-  transition: all .2s;
-  position: relative; z-index: 1;
+  font-family: var(--display); font-size: .82rem; font-weight: 700;
+  color: var(--txt-mid); flex-shrink: 0; transition: all .2s;
 }
-.option-text {
-  font-size: .95rem; line-height: 1.4; color: var(--txt-mid);
-  transition: color .2s; position: relative; z-index: 1;
-}
-
-/* states */
-.option.correct {
-  border-color: var(--green) !important;
-  background: rgba(34,201,122,.08) !important;
-}
+.option-text { font-size: .92rem; line-height: 1.4; color: var(--txt-mid); transition: color .2s; }
+.option.correct { border-color: var(--green) !important; background: rgba(34,201,122,.08) !important; }
 .option.correct .option-letter { background: var(--green); color: white; border-color: var(--green); }
-.option.correct .option-text   { color: var(--txt); }
-
-.option.wrong {
-  border-color: var(--red) !important;
-  background: rgba(255,77,61,.08) !important;
-}
+.option.correct .option-text { color: var(--txt); }
+.option.wrong { border-color: var(--red) !important; background: rgba(255,77,61,.08) !important; }
 .option.wrong .option-letter { background: var(--red); color: white; border-color: var(--red); }
-.option.wrong .option-text   { color: var(--txt-mid); }
-
 .option.disabled { cursor: default; }
 .option.disabled:hover { transform: none; }
 
-/* ── FEEDBACK ── */
-.feedback {
-  margin-top: 20px; padding: 14px 18px;
-  border-radius: 10px; font-size: .9rem; line-height: 1.5;
-  display: none; animation: fadeUp .3s ease both;
-}
+/* FEEDBACK */
+.feedback { margin-top: 18px; padding: 13px 16px; border-radius: 10px; font-size: .88rem; line-height: 1.5; display: none; animation: fadeUp .3s ease both; }
 .feedback.correct { background: rgba(34,201,122,.1); border: 1px solid rgba(34,201,122,.3); color: #6ee7b7; }
 .feedback.wrong   { background: rgba(255,77,61,.1);  border: 1px solid rgba(255,77,61,.3);  color: #fca5a5; }
 .feedback.show    { display: block; }
 .feedback strong  { font-weight: 600; display: block; margin-bottom: 4px; }
 
-/* ── NEXT BUTTON ── */
+/* NEXT BTN */
 .btn-next {
-  margin-top: 24px; width: 100%;
+  margin-top: 22px; width: 100%;
   background: linear-gradient(135deg, var(--teal-d), var(--blue));
-  border: none; border-radius: 12px;
-  padding: 16px 24px;
-  font-family: var(--display); font-size: 1rem; font-weight: 700;
+  border: none; border-radius: 12px; padding: 15px 24px;
+  font-family: var(--display); font-size: .98rem; font-weight: 700;
   color: white; cursor: pointer;
   display: none; align-items: center; justify-content: center; gap: 10px;
   transition: opacity .2s, transform .2s;
-  box-shadow: 0 8px 32px rgba(15,184,184,.25);
+  box-shadow: 0 8px 32px rgba(15,184,184,.2);
 }
 .btn-next:hover { opacity: .9; transform: translateY(-1px); }
 .btn-next.show  { display: flex; animation: fadeUp .3s ease both; }
-.btn-next svg   { width: 18px; height: 18px; }
 
-/* ── SCORE SCREEN ── */
-.score-screen {
-  display: none; text-align: center;
-  animation: fadeUp .5s ease both;
-}
+/* SCORE SCREEN */
+.score-screen { display: none; animation: fadeUp .5s ease both; }
 .score-screen.show { display: block; }
-
-.score-ring {
-  width: 160px; height: 160px; margin: 0 auto 28px;
-  position: relative;
-}
+.score-ring { width: 150px; height: 150px; margin: 0 auto 24px; position: relative; }
 .score-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
 .score-ring-track { fill: none; stroke: var(--bg3); stroke-width: 10; }
-.score-ring-fill  {
-  fill: none; stroke-width: 10; stroke-linecap: round;
-  stroke-dasharray: 408; stroke-dashoffset: 408;
-  transition: stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1) .3s;
-}
-.score-ring-fill.teal  { stroke: var(--teal); }
+.score-ring-fill  { fill: none; stroke-width: 10; stroke-linecap: round; stroke-dasharray: 408; stroke-dashoffset: 408; transition: stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1) .3s; }
 .score-ring-fill.green { stroke: var(--green); }
+.score-ring-fill.teal  { stroke: var(--teal); }
 .score-ring-fill.gold  { stroke: var(--gold); }
-.score-ring-label {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  transform: rotate(0);
-}
-.score-ring-num {
-  font-family: var(--display); font-size: 2.8rem; font-weight: 800;
-  line-height: 1;
-}
-.score-ring-den { font-size: .85rem; color: var(--txt-mid); margin-top: 2px; }
+.score-ring-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.score-ring-num { font-family: var(--display); font-size: 2.6rem; font-weight: 800; line-height: 1; }
+.score-ring-den { font-size: .82rem; color: var(--txt-mid); margin-top: 2px; }
+.score-title    { font-family: var(--display); font-size: 1.7rem; font-weight: 700; text-align: center; margin-bottom: 6px; }
+.score-subtitle { font-size: .92rem; color: var(--txt-mid); text-align: center; margin-bottom: 26px; line-height: 1.6; }
 
-.score-title {
-  font-family: var(--display); font-size: 1.8rem; font-weight: 700;
-  margin-bottom: 8px;
-}
-.score-subtitle { font-size: .95rem; color: var(--txt-mid); margin-bottom: 28px; line-height: 1.6; }
-
-/* name form */
-.name-form {
-  background: var(--bg3); border: 1px solid var(--border);
-  border-radius: 14px; padding: 24px; margin-bottom: 20px;
-  text-align: left;
-}
-.name-form label { font-size: .8rem; font-weight: 600; color: var(--teal); letter-spacing: .08em; text-transform: uppercase; display: block; margin-bottom: 10px; }
+/* NAME FORM */
+.name-form { background: var(--bg3); border: 1px solid var(--border); border-radius: 14px; padding: 22px; margin-bottom: 14px; }
+.name-form label { font-size: .75rem; font-weight: 600; color: var(--teal); letter-spacing: .08em; text-transform: uppercase; display: block; margin-bottom: 10px; }
 .name-form-row { display: flex; gap: 10px; }
 .name-input {
   flex: 1; background: var(--bg2); border: 1.5px solid var(--border);
-  border-radius: 10px; padding: 13px 16px;
-  font-family: var(--sans); font-size: .95rem; color: var(--txt);
+  border-radius: 10px; padding: 12px 15px;
+  font-family: var(--sans); font-size: .92rem; color: var(--txt);
   outline: none; transition: border-color .2s;
 }
 .name-input:focus { border-color: var(--teal); }
 .name-input::placeholder { color: var(--txt-lt); }
 .btn-submit {
   background: linear-gradient(135deg, var(--teal-d), var(--blue));
-  border: none; border-radius: 10px; padding: 13px 24px;
-  font-family: var(--display); font-size: .9rem; font-weight: 700;
+  border: none; border-radius: 10px; padding: 12px 22px;
+  font-family: var(--display); font-size: .88rem; font-weight: 700;
   color: white; cursor: pointer; white-space: nowrap;
   transition: opacity .2s, transform .2s;
-  box-shadow: 0 4px 16px rgba(15,184,184,.2);
 }
-.btn-submit:hover { opacity: .9; transform: translateY(-1px); }
-.btn-submit:disabled { opacity: .5; cursor: default; transform: none; }
-
-.submit-status { font-size: .85rem; color: var(--txt-mid); margin-top: 10px; min-height: 20px; }
+.btn-submit:hover:not(:disabled) { opacity: .9; transform: translateY(-1px); }
+.btn-submit:disabled { opacity: .5; cursor: default; }
+.submit-status { font-size: .82rem; margin-top: 9px; min-height: 18px; }
 .submit-status.success { color: var(--green); }
 .submit-status.error   { color: var(--red); }
 
+/* LEADERBOARD BTN */
 .btn-leaderboard {
   width: 100%; background: transparent;
   border: 1.5px solid var(--border); border-radius: 12px;
-  padding: 14px; font-family: var(--display); font-size: .95rem;
+  padding: 13px; font-family: var(--display); font-size: .92rem;
   font-weight: 600; color: var(--txt-mid); cursor: pointer;
   display: flex; align-items: center; justify-content: center; gap: 8px;
   transition: all .2s;
 }
 .btn-leaderboard:hover { border-color: var(--teal); color: var(--teal); }
-.btn-leaderboard svg { width: 16px; height: 16px; }
 
-/* ── LEADERBOARD ── */
-.leaderboard-screen { display: none; animation: fadeUp .4s ease both; }
-.leaderboard-screen.show { display: block; }
-
-.lb-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 20px;
-}
-.lb-header h2 { font-family: var(--display); font-size: 1.4rem; font-weight: 700; }
+/* LEADERBOARD SCREEN */
+.lb-screen { display: none; animation: fadeUp .4s ease both; }
+.lb-screen.show { display: block; }
+.lb-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+.lb-header h2 { font-family: var(--display); font-size: 1.35rem; font-weight: 700; }
 .btn-back {
   background: none; border: 1px solid var(--border); border-radius: 8px;
-  padding: 8px 14px; font-family: var(--sans); font-size: .82rem;
+  padding: 7px 13px; font-family: var(--sans); font-size: .8rem;
   color: var(--txt-mid); cursor: pointer; transition: all .2s;
-  display: flex; align-items: center; gap: 6px;
+  display: flex; align-items: center; gap: 5px;
 }
 .btn-back:hover { border-color: var(--teal); color: var(--teal); }
-
-.lb-list { display: flex; flex-direction: column; gap: 10px; }
+.lb-list { display: flex; flex-direction: column; gap: 9px; }
 .lb-item {
-  display: flex; align-items: center; gap: 16px;
+  display: flex; align-items: center; gap: 14px;
   background: var(--bg3); border: 1px solid var(--border);
-  border-radius: 12px; padding: 14px 18px;
+  border-radius: 12px; padding: 13px 16px;
   animation: fadeUp .3s ease both;
 }
-.lb-item.gold-rank   { border-color: rgba(240,180,41,.3); background: rgba(240,180,41,.06); }
-.lb-item.silver-rank { border-color: rgba(160,180,200,.2); }
-.lb-item.bronze-rank { border-color: rgba(180,120,80,.2); }
+.lb-item.r1 { border-color: rgba(240,180,41,.35); background: rgba(240,180,41,.07); }
+.lb-item.r2 { border-color: rgba(180,195,210,.2); }
+.lb-item.r3 { border-color: rgba(180,120,80,.2); }
+.lb-rank { width: 30px; height: 30px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: .88rem; font-weight: 700; flex-shrink: 0; }
+.r1 .lb-rank { background: rgba(240,180,41,.2); color: var(--gold); }
+.r2 .lb-rank { background: rgba(180,195,210,.12); color: #b0c4d8; }
+.r3 .lb-rank { background: rgba(180,120,80,.12); color: #c8845a; }
+.lb-item:not(.r1):not(.r2):not(.r3) .lb-rank { background: var(--bg2); color: var(--txt-lt); }
+.lb-name  { flex: 1; font-size: .92rem; font-weight: 500; }
+.lb-score { font-family: var(--display); font-size: .95rem; font-weight: 700; }
+.r1 .lb-score { color: var(--gold); }
+.r2 .lb-score { color: #b0c4d8; }
+.r3 .lb-score { color: #c8845a; }
+.lb-item:not(.r1):not(.r2):not(.r3) .lb-score { color: var(--teal); }
+.lb-loading { text-align: center; padding: 36px; color: var(--txt-mid); font-size: .9rem; }
 
-.lb-rank {
-  width: 32px; height: 32px; border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--display); font-size: .9rem; font-weight: 700;
-  flex-shrink: 0;
+/* SETUP SCREEN */
+.setup-screen { display: none; animation: fadeUp .4s ease both; }
+.setup-screen.show { display: block; }
+.setup-steps { display: flex; flex-direction: column; gap: 16px; margin: 20px 0; }
+.setup-step { display: flex; gap: 16px; align-items: flex-start; }
+.step-num { width: 32px; height: 32px; border-radius: 8px; background: var(--teal); color: white; font-family: var(--display); font-weight: 700; font-size: .9rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.step-body h4 { font-size: .95rem; font-weight: 600; color: var(--txt); margin-bottom: 4px; }
+.step-body p  { font-size: .85rem; color: var(--txt-mid); line-height: 1.5; }
+.step-body code { background: var(--bg3); border: 1px solid var(--border); border-radius: 5px; padding: 2px 7px; font-size: .82rem; color: var(--teal); font-family: monospace; }
+.api-input-row { display: flex; gap: 10px; margin-top: 20px; }
+.api-input {
+  flex: 1; background: var(--bg3); border: 1.5px solid var(--border);
+  border-radius: 10px; padding: 12px 15px;
+  font-family: monospace; font-size: .85rem; color: var(--txt);
+  outline: none; transition: border-color .2s;
 }
-.gold-rank   .lb-rank { background: rgba(240,180,41,.2); color: var(--gold); }
-.silver-rank .lb-rank { background: rgba(160,180,200,.15); color: #b0c4d8; }
-.bronze-rank .lb-rank { background: rgba(180,120,80,.15); color: #c8845a; }
-.lb-item:not(.gold-rank):not(.silver-rank):not(.bronze-rank) .lb-rank { background: var(--bg2); color: var(--txt-lt); }
-
-.lb-name  { flex: 1; font-size: .95rem; font-weight: 500; color: var(--txt); }
-.lb-score {
-  font-family: var(--display); font-size: 1rem; font-weight: 700;
-  padding: 4px 12px; border-radius: 6px;
+.api-input:focus { border-color: var(--teal); }
+.api-input::placeholder { color: var(--txt-lt); font-family: var(--sans); }
+.btn-save {
+  background: linear-gradient(135deg, var(--teal-d), var(--blue));
+  border: none; border-radius: 10px; padding: 12px 22px;
+  font-family: var(--display); font-size: .88rem; font-weight: 700;
+  color: white; cursor: pointer; white-space: nowrap; transition: opacity .2s;
 }
-.gold-rank   .lb-score { color: var(--gold); }
-.silver-rank .lb-score { color: #b0c4d8; }
-.bronze-rank .lb-score { color: #c8845a; }
-.lb-item:not(.gold-rank):not(.silver-rank):not(.bronze-rank) .lb-score { color: var(--teal); }
+.btn-save:hover { opacity: .9; }
+.skip-link { text-align: center; margin-top: 14px; }
+.skip-link button { background: none; border: none; color: var(--txt-lt); font-size: .82rem; cursor: pointer; text-decoration: underline; font-family: var(--sans); }
+.skip-link button:hover { color: var(--txt-mid); }
 
-.lb-loading { text-align: center; padding: 40px; color: var(--txt-mid); font-size: .9rem; }
+/* FOOTER */
+.quiz-footer { text-align: center; margin-top: 20px; font-size: .72rem; color: var(--txt-lt); animation: fadeUp .6s .3s ease both; }
 
-/* ── FOOTER ── */
-.quiz-footer {
-  text-align: center; margin-top: 24px;
-  font-size: .75rem; color: var(--txt-lt);
-  animation: fadeUp .6s .3s ease both;
-}
-
-/* ── ANIMATIONS ── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes pop {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-.card.pop { animation: pop .3s ease; }
-
-/* confetti particle */
-.confetti-piece {
-  position: fixed; width: 8px; height: 8px;
-  border-radius: 2px; pointer-events: none; z-index: 999;
-  animation: confettiFall linear forwards;
-}
-@keyframes confettiFall {
-  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
-  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-}
-
-/* responsive */
-@media (max-width: 500px) {
-  .card { padding: 24px 20px; }
-  .name-form-row { flex-direction: column; }
-}
+/* ANIMATIONS */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.04); } 100% { transform: scale(1); } }
+.card.pop { animation: pop .25s ease; }
+.confetti-piece { position: fixed; pointer-events: none; z-index: 999; border-radius: 2px; animation: fall linear forwards; }
+@keyframes fall { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+@media (max-width: 500px) { .card { padding: 22px 18px; } .name-form-row, .api-input-row { flex-direction: column; } }
 </style>
 </head>
 <body>
@@ -407,26 +263,61 @@ body::before {
 
 <div class="app">
 
-  <!-- ══ QUIZ SCREEN ══ -->
-  <div id="quizScreen">
-
+  <!-- ══ SETUP SCREEN ══ -->
+  <div id="setupScreen" class="setup-screen">
     <div class="quiz-header">
-      <div class="quiz-badge">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a5 5 0 1 0 0 10A5 5 0 0 0 12 2zm-7 18a7 7 0 0 1 14 0"/></svg>
-        Poster Quiz
-      </div>
-      <h1>Wearable Fall Detection<br><span>in Elderly Care</span></h1>
-      <p>3 questions based on the research poster.<br>How well did you read it?</p>
+      <div class="quiz-badge">⚙ First-time Setup</div>
+      <h1>Connect <span>Leaderboard</span></h1>
+      <p>Enter your JSONBin API key to enable the live leaderboard.<br>Only needed once — it's saved in your browser.</p>
     </div>
+    <div class="card">
+      <div class="setup-steps">
+        <div class="setup-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Create free account</h4>
+            <p>Go to <strong>jsonbin.io</strong> → Sign Up (free, no credit card)</p>
+          </div>
+        </div>
+        <div class="setup-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Copy your API Key</h4>
+            <p>After login: click your profile icon → <code>API Keys</code> → copy the key starting with <code>$2b$10$...</code></p>
+          </div>
+        </div>
+        <div class="setup-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>Paste it below</h4>
+            <p>The key is saved locally in your browser — nobody else can see it.</p>
+          </div>
+        </div>
+      </div>
+      <div class="api-input-row">
+        <input class="api-input" id="apiKeyInput" type="password" placeholder="Paste your JSONBin API key here…" autocomplete="off"/>
+        <button class="btn-save" onclick="saveApiKey()">Save & Start</button>
+      </div>
+      <div class="submit-status" id="setupStatus"></div>
+      <div class="skip-link">
+        <button onclick="skipSetup()">Skip — play without leaderboard</button>
+      </div>
+    </div>
+    <div class="quiz-footer">International DBM Excursion 2026 · Fachhochschule Graubünden</div>
+  </div>
 
+  <!-- ══ QUIZ SCREEN ══ -->
+  <div id="quizScreen" style="display:none;">
+    <div class="quiz-header">
+      <div class="quiz-badge">🎯 Poster Quiz</div>
+      <h1>Wearable Fall Detection<br><span>in Elderly Care</span></h1>
+      <p>Answer the questions based on the research poster.<br>How well did you read it?</p>
+    </div>
     <div class="progress-label">
       <span id="progressText">Question 1 of 3</span>
       <span id="scoreText">0 pts</span>
     </div>
-    <div class="progress-bar">
-      <div class="progress-fill" id="progressFill" style="width:0%"></div>
-    </div>
-
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
     <div class="card" id="questionCard">
       <div class="question-num" id="questionNum">Question 1</div>
       <div class="question-text" id="questionText"></div>
@@ -434,115 +325,200 @@ body::before {
       <div class="feedback" id="feedbackBox"></div>
       <button class="btn-next" id="btnNext" onclick="nextQuestion()">
         Next Question
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
     </div>
-
-    <div class="quiz-footer">International DBM Excursion 2026 &nbsp;·&nbsp; Fachhochschule Graubünden</div>
+    <div class="quiz-footer">International DBM Excursion 2026 · Fachhochschule Graubünden</div>
   </div>
 
   <!-- ══ SCORE SCREEN ══ -->
   <div id="scoreScreen" class="score-screen">
-
     <div class="card">
-      <div class="score-ring" id="scoreRing">
+      <div class="score-ring">
         <svg viewBox="0 0 140 140">
           <circle class="score-ring-track" cx="70" cy="70" r="65"/>
           <circle class="score-ring-fill" id="scoreRingFill" cx="70" cy="70" r="65"/>
         </svg>
         <div class="score-ring-label">
           <div class="score-ring-num" id="scoreNum">0</div>
-          <div class="score-ring-den" id="scoreDen">/ 3</div>
+          <div class="score-ring-den" id="scoreDen">/3</div>
         </div>
       </div>
-
       <div class="score-title" id="scoreTitle"></div>
       <div class="score-subtitle" id="scoreSubtitle"></div>
-
-      <!-- Name + submit -->
-      <div class="name-form">
+      <div class="name-form" id="nameFormWrap">
         <label>Submit your score to the leaderboard</label>
         <div class="name-form-row">
-          <input class="name-input" id="nameInput" type="text" placeholder="Enter your name…" maxlength="30" autocomplete="off"/>
+          <input class="name-input" id="nameInput" type="text" placeholder="Your name…" maxlength="30" autocomplete="off"/>
           <button class="btn-submit" id="btnSubmit" onclick="submitScore()">Submit</button>
         </div>
         <div class="submit-status" id="submitStatus"></div>
       </div>
-
       <button class="btn-leaderboard" onclick="showLeaderboard()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-        View Leaderboard
+        🏆 &nbsp;View Leaderboard
       </button>
     </div>
-
-    <div class="quiz-footer" style="margin-top:16px;">International DBM Excursion 2026 &nbsp;·&nbsp; Fachhochschule Graubünden</div>
+    <div class="quiz-footer" style="margin-top:16px;">International DBM Excursion 2026 · Fachhochschule Graubünden</div>
   </div>
 
   <!-- ══ LEADERBOARD SCREEN ══ -->
-  <div id="leaderboardScreen" class="leaderboard-screen">
+  <div id="lbScreen" class="lb-screen">
     <div class="card">
       <div class="lb-header">
         <h2>🏆 Leaderboard</h2>
         <button class="btn-back" onclick="showScoreScreen()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
           Back
         </button>
       </div>
-      <div class="lb-list" id="lbList">
-        <div class="lb-loading">Loading scores…</div>
-      </div>
+      <div class="lb-list" id="lbList"><div class="lb-loading">Loading…</div></div>
     </div>
-    <div class="quiz-footer" style="margin-top:16px;">International DBM Excursion 2026 &nbsp;·&nbsp; Fachhochschule Graubünden</div>
+    <div class="quiz-footer" style="margin-top:16px;">International DBM Excursion 2026 · Fachhochschule Graubünden</div>
   </div>
 
 </div><!-- /app -->
 
 <script>
-// ══════════════════════════════════════════════════════════
-//  CONFIGURATION  –  fill in after Google Sheets setup
-// ══════════════════════════════════════════════════════════
-const CONFIG = {
-  // Step 1: Replace with your Google Apps Script Web App URL
-  // (see README.md for setup instructions)
-  SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxcoC9rbIFqBOycWcEWRH_8gv3S92UhjgPeksGmDRPWlV3CmKgnGnjwdHvQ_Z084N6D4w/exec',
-};
-
-// ══════════════════════════════════════════════════════════
-//  QUIZ DATA
-// ══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
+//  QUESTIONS  –  add more objects here to extend quiz
+// ═══════════════════════════════════════════════════
 const QUESTIONS = [
   {
     text: "Which country has a higher level of system integration for wearable fall detection technologies?",
     options: ["Switzerland", "Denmark", "Both equally", "Neither — both rely on private systems"],
     correct: 1,
-    explanation: "✓ Correct! Denmark benefits from centralized coordination, high interoperability standards, and a national digital health strategy — enabling seamless integration into public healthcare."
+    explanation: "Denmark benefits from centralized coordination, high interoperability standards, and a national digital health strategy — enabling seamless integration into public healthcare."
   },
   {
     text: "What is the dominant policy driver for wearable fall detection deployment in Switzerland?",
     options: ["National digital health strategy", "Federal Innosuisse funding for public systems", "Private market & individual purchase", "State-coordinated public care"],
     correct: 2,
-    explanation: "✓ Correct! Switzerland primarily relies on the private market and individual purchase, with limited systemic integration — unlike Denmark's publicly funded, state-coordinated approach."
+    explanation: "Switzerland primarily relies on the private market and individual purchase, with limited systemic integration — unlike Denmark's publicly funded, state-coordinated approach."
   },
   {
-    text: "According to the review, what is the KEY factor that differentiates fall detection effectiveness between Switzerland and Denmark?",
+    text: "According to the review, what is the KEY factor that differentiates fall detection effectiveness between the two countries?",
     options: ["Device technology quality", "Systemic integration & infrastructure", "Number of wearable devices available", "User age demographics"],
     correct: 1,
-    explanation: "✓ Correct! The key distinction is NOT technological sophistication, but systemic integration. Denmark's centralised infrastructure enables faster response and higher user adoption."
+    explanation: "The key distinction is NOT technological sophistication, but systemic integration. Denmark's centralised infrastructure enables faster response and higher user adoption."
   }
 ];
 
-// ══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
+//  JSONBIN CONFIG
+// ═══════════════════════════════════════════════════
+const JSONBIN_BASE = 'https://api.jsonbin.io/v3';
+let BIN_ID  = localStorage.getItem('jb_bin_id')  || '';
+let API_KEY = localStorage.getItem('jb_api_key') || '$2a$10$UsEWDTgAXQ2WMTf7ONwkAuhszfNCwz8VZEwodwAlHfV29yJypJdSC';
+
+// ═══════════════════════════════════════════════════
 //  STATE
-// ══════════════════════════════════════════════════════════
-let currentQ   = 0;
-let score      = 0;
-let answered   = false;
+// ═══════════════════════════════════════════════════
+let currentQ = 0;
+let score    = 0;
+let answered = false;
 
-// ══════════════════════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════════════════════
-renderQuestion();
+// ═══════════════════════════════════════════════════
+//  INIT – decide which screen to show first
+// ═══════════════════════════════════════════════════
+function init() {
+  if (!API_KEY) {
+    show('setupScreen');
+  } else {
+    show('quizScreen');
+    renderQuestion();
+  }
+}
 
+function show(id) {
+  ['setupScreen','quizScreen','scoreScreen','lbScreen'].forEach(s => {
+    const el = document.getElementById(s);
+    if (el) { el.style.display = 'none'; el.classList.remove('show'); }
+  });
+  const target = document.getElementById(id);
+  if (target) { target.style.display = ''; target.classList.add('show'); }
+}
+
+// ═══════════════════════════════════════════════════
+//  SETUP
+// ═══════════════════════════════════════════════════
+async function saveApiKey() {
+  const key = document.getElementById('apiKeyInput').value.trim();
+  const status = document.getElementById('setupStatus');
+  if (!key) { status.textContent = 'Please paste your API key.'; status.className = 'submit-status error'; return; }
+
+  status.textContent = 'Connecting…'; status.className = 'submit-status';
+
+  // Try to create or find a bin
+  try {
+    const binId = await getOrCreateBin(key);
+    if (!binId) throw new Error('Could not create bin');
+    localStorage.setItem('jb_api_key', key);
+    localStorage.setItem('jb_bin_id', binId);
+    API_KEY = key; BIN_ID = binId;
+    status.textContent = '✓ Connected!'; status.className = 'submit-status success';
+    setTimeout(() => { show('quizScreen'); renderQuestion(); }, 800);
+  } catch (e) {
+    status.textContent = '⚠ Could not connect. Check your API key and try again.';
+    status.className = 'submit-status error';
+  }
+}
+
+function skipSetup() {
+  API_KEY = ''; BIN_ID = '';
+  show('quizScreen');
+  renderQuestion();
+  // hide leaderboard submit form
+  document.getElementById('nameFormWrap').style.display = 'none';
+}
+
+// ═══════════════════════════════════════════════════
+//  JSONBIN HELPERS
+// ═══════════════════════════════════════════════════
+async function getOrCreateBin(key) {
+  // Check if we already have a bin stored
+  const stored = localStorage.getItem('jb_bin_id');
+  if (stored) return stored;
+
+  // Create new bin with empty scores array
+  const res = await fetch(`${JSONBIN_BASE}/b`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Master-Key': key,
+      'X-Bin-Name': 'poster-quiz-scores',
+      'X-Bin-Private': 'false'
+    },
+    body: JSON.stringify({ scores: [] })
+  });
+  if (!res.ok) throw new Error('Failed to create bin');
+  const data = await res.json();
+  return data.metadata.id;
+}
+
+async function readScores() {
+  const res = await fetch(`${JSONBIN_BASE}/b/${BIN_ID}/latest`, {
+    headers: { 'X-Master-Key': API_KEY }
+  });
+  if (!res.ok) throw new Error('Read failed');
+  const data = await res.json();
+  return data.record.scores || [];
+}
+
+async function writeScores(scores) {
+  const res = await fetch(`${JSONBIN_BASE}/b/${BIN_ID}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Master-Key': API_KEY
+    },
+    body: JSON.stringify({ scores })
+  });
+  if (!res.ok) throw new Error('Write failed');
+}
+
+// ═══════════════════════════════════════════════════
+//  QUIZ LOGIC
+// ═══════════════════════════════════════════════════
 function renderQuestion() {
   const q = QUESTIONS[currentQ];
   answered = false;
@@ -553,23 +529,16 @@ function renderQuestion() {
   document.getElementById('scoreText').textContent    = `${score} pt${score !== 1 ? 's' : ''}`;
   document.getElementById('progressFill').style.width = `${(currentQ / QUESTIONS.length) * 100}%`;
 
-  const feedback = document.getElementById('feedbackBox');
-  feedback.className = 'feedback';
-  feedback.innerHTML = '';
-
+  const fb = document.getElementById('feedbackBox');
+  fb.className = 'feedback'; fb.innerHTML = '';
   document.getElementById('btnNext').className = 'btn-next';
 
   const container = document.getElementById('optionsContainer');
   container.innerHTML = '';
-  const letters = ['A', 'B', 'C', 'D'];
-
-  q.options.forEach((opt, i) => {
+  ['A','B','C','D'].forEach((letter, i) => {
     const el = document.createElement('div');
     el.className = 'option';
-    el.innerHTML = `
-      <div class="option-letter">${letters[i]}</div>
-      <div class="option-text">${opt}</div>
-    `;
+    el.innerHTML = `<div class="option-letter">${letter}</div><div class="option-text">${q.options[i]}</div>`;
     el.addEventListener('click', () => selectAnswer(i, el));
     container.appendChild(el);
   });
@@ -581,32 +550,30 @@ function selectAnswer(idx, el) {
 
   const q = QUESTIONS[currentQ];
   const options = document.querySelectorAll('.option');
-  const feedback = document.getElementById('feedbackBox');
-
+  const fb = document.getElementById('feedbackBox');
   options.forEach(o => o.classList.add('disabled'));
 
   if (idx === q.correct) {
     el.classList.add('correct');
     score++;
     document.getElementById('scoreText').textContent = `${score} pt${score !== 1 ? 's' : ''}`;
-    feedback.innerHTML = `<strong>🎉 Correct!</strong>${q.explanation.replace('✓ Correct! ', '')}`;
-    feedback.className = 'feedback correct show';
+    fb.innerHTML = `<strong>🎉 Correct!</strong>${q.explanation}`;
+    fb.className = 'feedback correct show';
   } else {
     el.classList.add('wrong');
     options[q.correct].classList.add('correct');
-    feedback.innerHTML = `<strong>Not quite.</strong>${q.explanation.replace('✓ Correct! ', 'The correct answer: ')}`;
-    feedback.className = 'feedback wrong show';
+    fb.innerHTML = `<strong>Not quite.</strong>${q.explanation}`;
+    fb.className = 'feedback wrong show';
   }
 
-  const btnNext = document.getElementById('btnNext');
+  const btn = document.getElementById('btnNext');
   if (currentQ === QUESTIONS.length - 1) {
-    btnNext.innerHTML = `See Results <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`;
+    btn.innerHTML = `See Results <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`;
   }
-  btnNext.classList.add('show');
+  btn.classList.add('show');
 
-  // card pop
   document.getElementById('questionCard').classList.add('pop');
-  setTimeout(() => document.getElementById('questionCard').classList.remove('pop'), 300);
+  setTimeout(() => document.getElementById('questionCard').classList.remove('pop'), 250);
 }
 
 function nextQuestion() {
@@ -618,32 +585,28 @@ function nextQuestion() {
   }
 }
 
-// ══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 //  SCORE SCREEN
-// ══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 function showScore() {
   document.getElementById('progressFill').style.width = '100%';
-  document.getElementById('quizScreen').style.display = 'none';
+  show('scoreScreen');
 
-  const ss = document.getElementById('scoreScreen');
-  ss.classList.add('show');
-
-  // ring animation
-  const pct    = score / QUESTIONS.length;
-  const circ   = 2 * Math.PI * 65; // 408.4
-  const fill   = document.getElementById('scoreRingFill');
+  const pct  = score / QUESTIONS.length;
+  const circ = 2 * Math.PI * 65;
+  const fill = document.getElementById('scoreRingFill');
   fill.style.strokeDasharray  = circ;
   fill.style.strokeDashoffset = circ;
 
   if (score === QUESTIONS.length) {
     fill.className = 'score-ring-fill green';
     document.getElementById('scoreTitle').textContent    = '🏆 Perfect Score!';
-    document.getElementById('scoreSubtitle').textContent = 'You clearly paid close attention to the poster. Excellent work!';
+    document.getElementById('scoreSubtitle').textContent = 'Outstanding! You clearly paid close attention to the poster.';
     launchConfetti();
-  } else if (score >= 2) {
+  } else if (score >= Math.ceil(QUESTIONS.length * 0.6)) {
     fill.className = 'score-ring-fill teal';
     document.getElementById('scoreTitle').textContent    = '👏 Well Done!';
-    document.getElementById('scoreSubtitle').textContent = 'Good understanding of the research findings. One more to go next time!';
+    document.getElementById('scoreSubtitle').textContent = 'Good understanding of the research. Almost perfect!';
   } else {
     fill.className = 'score-ring-fill gold';
     document.getElementById('scoreTitle').textContent    = '💡 Keep Going!';
@@ -651,144 +614,103 @@ function showScore() {
   }
 
   document.getElementById('scoreNum').textContent = score;
-  document.getElementById('scoreDen').textContent = `/ ${QUESTIONS.length}`;
+  document.getElementById('scoreDen').textContent = `/${QUESTIONS.length}`;
 
-  // animate ring after short delay
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      fill.style.strokeDashoffset = circ * (1 - pct);
-    });
-  });
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    fill.style.strokeDashoffset = circ * (1 - pct);
+  }));
 }
 
-// ══════════════════════════════════════════════════════════
-//  GOOGLE SHEETS SUBMIT
-// ══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
+//  SUBMIT TO JSONBIN
+// ═══════════════════════════════════════════════════
 async function submitScore() {
-  const name = document.getElementById('nameInput').value.trim();
-  if (!name) {
-    document.getElementById('submitStatus').textContent = 'Please enter your name first.';
-    return;
-  }
-
-  const btn    = document.getElementById('btnSubmit');
+  const name   = document.getElementById('nameInput').value.trim();
   const status = document.getElementById('submitStatus');
-  btn.disabled = true;
-  btn.textContent = 'Submitting…';
-  status.textContent = '';
-  status.className = 'submit-status';
+  const btn    = document.getElementById('btnSubmit');
 
-  if (CONFIG.SCRIPT_URL === 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
-    // Demo mode – no real submission
-    await new Promise(r => setTimeout(r, 800));
-    status.textContent = '✓ Score submitted! (Demo mode – see README to connect Google Sheets)';
-    status.className = 'submit-status success';
-    btn.textContent = 'Submitted ✓';
-    return;
-  }
+  if (!name) { status.textContent = 'Please enter your name.'; status.className = 'submit-status error'; return; }
+
+  btn.disabled = true; btn.textContent = 'Submitting…';
+  status.textContent = ''; status.className = 'submit-status';
 
   try {
-    const params = new URLSearchParams({ name, score, total: QUESTIONS.length, ts: new Date().toISOString() });
-    await fetch(`${CONFIG.SCRIPT_URL}?${params}`, { method: 'GET', mode: 'no-cors' });
+    const existing = await readScores();
+    existing.push({ name, score, total: QUESTIONS.length, ts: Date.now() });
+    await writeScores(existing);
     status.textContent = '✓ Score submitted to the leaderboard!';
     status.className   = 'submit-status success';
     btn.textContent    = 'Submitted ✓';
   } catch {
-    status.textContent = '⚠ Could not connect. Check your internet connection.';
+    status.textContent = '⚠ Could not submit. Check your connection.';
     status.className   = 'submit-status error';
-    btn.disabled       = false;
-    btn.textContent    = 'Submit';
+    btn.disabled = false; btn.textContent = 'Submit';
   }
 }
 
-// ══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 //  LEADERBOARD
-// ══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 function showLeaderboard() {
-  document.getElementById('scoreScreen').classList.remove('show');
-  document.getElementById('scoreScreen').style.display = 'none';
-  const lb = document.getElementById('leaderboardScreen');
-  lb.classList.add('show');
+  show('lbScreen');
   loadLeaderboard();
 }
 
 function showScoreScreen() {
-  document.getElementById('leaderboardScreen').classList.remove('show');
-  const ss = document.getElementById('scoreScreen');
-  ss.style.display = '';
-  ss.classList.add('show');
+  show('scoreScreen');
 }
 
 async function loadLeaderboard() {
   const list = document.getElementById('lbList');
   list.innerHTML = '<div class="lb-loading">Loading scores…</div>';
 
-  if (CONFIG.SCRIPT_URL === 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
-    // Demo data
-    await new Promise(r => setTimeout(r, 600));
-    renderLeaderboard([
-      { name: 'Demo Player', score: 3, total: 3 },
-      { name: 'Example User', score: 2, total: 3 },
-      { name: 'Test Person', score: 1, total: 3 },
-    ]);
+  if (!API_KEY || !BIN_ID) {
+    list.innerHTML = '<div class="lb-loading">No leaderboard connected.<br>Restart and enter your API key to enable it.</div>';
     return;
   }
 
   try {
-    const res  = await fetch(`${CONFIG.SCRIPT_URL}?action=get`);
-    const data = await res.json();
-    renderLeaderboard(data);
+    const scores = await readScores();
+    scores.sort((a, b) => b.score - a.score || a.ts - b.ts);
+    if (!scores.length) {
+      list.innerHTML = '<div class="lb-loading">No scores yet — be the first! 🚀</div>';
+      return;
+    }
+    const rc = ['r1','r2','r3'];
+    list.innerHTML = scores.slice(0, 20).map((e, i) => `
+      <div class="lb-item ${rc[i]||''}" style="animation-delay:${i*.04}s">
+        <div class="lb-rank">${i < 3 ? ['🥇','🥈','🥉'][i] : i+1}</div>
+        <div class="lb-name">${esc(e.name)}</div>
+        <div class="lb-score">${e.score}/${e.total}</div>
+      </div>`).join('');
   } catch {
-    list.innerHTML = '<div class="lb-loading">⚠ Could not load scores. Check your connection.</div>';
+    list.innerHTML = '<div class="lb-loading">⚠ Could not load scores.</div>';
   }
 }
 
-function renderLeaderboard(entries) {
-  const list = document.getElementById('lbList');
-  if (!entries.length) {
-    list.innerHTML = '<div class="lb-loading">No scores yet. Be the first!</div>';
-    return;
-  }
-
-  // sort by score desc, then by time
-  entries.sort((a, b) => b.score - a.score);
-
-  const rankClasses = ['gold-rank', 'silver-rank', 'bronze-rank'];
-  list.innerHTML = entries.slice(0, 15).map((e, i) => `
-    <div class="lb-item ${rankClasses[i] || ''}" style="animation-delay:${i * .05}s">
-      <div class="lb-rank">${i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}</div>
-      <div class="lb-name">${escHtml(e.name)}</div>
-      <div class="lb-score">${e.score}/${e.total}</div>
-    </div>
-  `).join('');
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
-function escHtml(str) {
-  return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
-}
-
-// ══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 //  CONFETTI
-// ══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 function launchConfetti() {
-  const colors = ['#0fb8b8','#3d7eff','#22c97a','#f0b429','#ff4d3d'];
+  const cols = ['#0fb8b8','#3d7eff','#22c97a','#f0b429','#ff4d3d'];
   for (let i = 0; i < 80; i++) {
     const p = document.createElement('div');
     p.className = 'confetti-piece';
-    p.style.cssText = `
-      left: ${Math.random() * 100}vw;
-      top: -10px;
-      background: ${colors[Math.floor(Math.random() * colors.length)]};
-      width: ${4 + Math.random() * 8}px;
-      height: ${4 + Math.random() * 8}px;
-      animation-duration: ${1.5 + Math.random() * 2}s;
-      animation-delay: ${Math.random() * .8}s;
-    `;
+    const size = 4 + Math.random() * 8;
+    p.style.cssText = `left:${Math.random()*100}vw;top:-10px;width:${size}px;height:${size}px;background:${cols[Math.floor(Math.random()*cols.length)]};animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*.8}s;`;
     document.body.appendChild(p);
     p.addEventListener('animationend', () => p.remove());
   }
 }
-</script>
 
+// ═══════════════════════════════════════════════════
+//  START
+// ═══════════════════════════════════════════════════
+init();
+</script>
 </body>
 </html>
